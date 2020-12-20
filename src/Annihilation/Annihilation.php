@@ -1,11 +1,11 @@
 <?php
 
-namespace Core;
+namespace Annihilation;
 
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 
-class Main extends PluginBase implements Listener{
+class Annihilation extends PluginBase implements Listener{
   
      const PREFIX = "§l§9Annihilation §r";
      public $games;
