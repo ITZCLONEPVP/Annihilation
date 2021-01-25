@@ -1,6 +1,6 @@
 # Annihilation
 Annihilation plugin for PocketMine [45%]
-Plugin is developed for BladeStorm and minebridge erver.
+Plugin is developed for BladeStorm and minebridge server.
 Please do not copy code without asking me, thanks.
 
 Current Developers: [ImKyd, CV98]
