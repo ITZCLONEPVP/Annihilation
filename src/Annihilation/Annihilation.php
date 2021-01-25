@@ -1,9 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Annihilation;
 
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
+
+use pocketmine\Player;
+use pocketmine\Server;
+
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\block\Block;
+
 
 class Annihilation extends PluginBase implements Listener{
   
@@ -23,6 +32,10 @@ class Annihilation extends PluginBase implements Listener{
                                     "min-players" => 2]];
      }
   
+     public function getGames() {
+       return count $this->arenas;
+     }
+  
      public function getData(Player $p){
        return  $this->playerData[$player->getId()] = $data = new PlayerData($p->getName());
      }
@@ -34,11 +47,11 @@ class Annihilation extends PluginBase implements Listener{
          return true;
        }
   
-     public function onNexusBreak($nexus, BlockBreakEvent $e){
+     public function onNexusBreak(BlockBreakEvent $e){
        $p = $e->getPlayer();
        $b = $e->getBlock();
        if($this->isPlaying($p){
-         if($b instaceof /*Nexus*/){
+         if($b->getId(121)/*Nexus*/){
            //TODO 
          }
        }
