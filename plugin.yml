@@ -3,3 +3,6 @@ main: Annihilation\Annihilation
 api: 3.0.0
 version: 1.0.0
 author: CV98
+commands:
+         anni:
+          description: anni command !
