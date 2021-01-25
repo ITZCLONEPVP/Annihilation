@@ -8,7 +8,6 @@ Development Info: 45%
 [CREATE PULL REQUEST IF YOU WANT HELP]
 
 Inspired by Bukkit Annihilation plugin running on Survival Games server.  
-development by CV98 !!!!!????!!!!!!?????!
 
 simple setup ✔️
 8 amazing kits ✔️
