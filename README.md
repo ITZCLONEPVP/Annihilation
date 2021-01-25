@@ -9,6 +9,7 @@ Development Info: 45%
 
 Inspired by Bukkit Annihilation plugin running on Survival Games server.  
 
+# Features
 simple setup ✔️
 8 amazing kits ✔️
 Multi Arenas Support ✔️
