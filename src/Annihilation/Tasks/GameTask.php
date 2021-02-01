@@ -93,7 +93,7 @@ class GameTask extends Task {
                 $this->plugin->broadcastMessage("§a> There are " . count($this->plugin->players) . " players, time to end: " . Time::calculateTime($this->gameTime) . "", Arena::MSG_TIP);
 
                 switch ($this->gameTime) {
-                    case $phase1:
+                case $phase1:
                     $this->plugin->broadcastMessage(TextFormat::GRAY . "===========[ " . TextFormat::DARK_AQUA . "Progress" . TextFormat::GRAY . " ]===========\n"
 
                     . TextFormat::BLUE . "Phase I " . TextFormat::GRAY . "has started\n"
@@ -103,8 +103,8 @@ class GameTask extends Task {
                     . TextFormat::GRAY . "==================================");
 
                     break;
-                    case $phase2:
-
+                case $phase2:
+                    $this->plugin->bossManager()->spawnBosses();
                     $this->plugin->broadcastMessage(TextFormat::GRAY . "===========[ " . TextFormat::DARK_AQUA . "Progress" . TextFormat::GRAY . " ]===========\n"
 
                     . TextFormat::GREEN . "Phase II " . TextFormat::GRAY . "has started\n"
@@ -114,20 +114,44 @@ class GameTask extends Task {
                     . TextFormat::GRAY . "Boss Iron Golems will now spawn\n"
 
                     . TextFormat::GRAY . "==================================");
-
                     break;
-                    case 10 * 60:
+                case $phase3:
+.                   $this->plugin->spawnDiamonds(true);  
+                    $this->plugin->bossManager()->spawnBosses()
+                    $this->plugin->broadcastMessage(TextFormat::GRAY . "===========[ " . TextFormat::DARK_AQUA . "Progress" . TextFormat::GRAY . " ]===========\n"
 
-                        $this->plugin->broadcastMessage("§a> All chests are refilled.");
+                    . TextFormat::YELLOW . "Phase III " . TextFormat::GRAY . "has started\n"
 
-                        break;
+                    . TextFormat::GRAY . "Diamonds now spawn in the middle\n"
+
+                    . TextFormat::GRAY . "==================================");
+                     break;
+                case $phase4:
+                    $this->plugin->bossManager()->spawnBosses();
+                    $this->plugin->broadcastMessage(TextFormat::GRAY . "===========[ " . TextFormat::DARK_AQUA . "Progress" . TextFormat::GRAY . " ]===========\n"
+
+                    . TextFormat::GOLD . "Phase IV " . TextFormat::GRAY . "has started\n"
+
+                    . TextFormat::GRAY . "Now you can brew strength\n"
+
+                    . TextFormat::GRAY . "==================================");
+                    break;
+                 case $phase5:
+                    $this->plugin->bossManager()->spawnBosses();
+                    $this->plugin->broadcastMessage(TextFormat::GRAY . "===========[ " . TextFormat::DARK_AQUA . "Progress" . TextFormat::GRAY . " ]===========\n"
+
+                    . TextFormat::RED . "Phase V " . TextFormat::GRAY . "has started\n"
+
+                    . TextFormat::RED . "Double nexus damage\n"
+
+                    . TextFormat::GRAY . "==================================");
+                     break;
 
                 }
 
                 if($this->plugin->checkEnd()) $this->plugin->startRestart();
 
                 $this->gameTime--;
-
                 break;
 
    
