@@ -35,10 +35,14 @@ class GameTask extends Task {
    /** @var float|int $phase5 */
    public $phase5 = 20 * 60;
    
-   public function __constuct(Game $plugin) 
+    /** @var array $restartData */
+    public $restartData = [];
+   
+   public function __constuct(Game $plugin, array $phase1, $phase2, $phase3, $phase4, $phase5) 
    {
       parent::__construct($plugin);
       $this->plugin = $plugin;
+      $this->phase = [$phase1 =< 1, $phase2 =< 2, $phase3 =< 3, $phase4 =< 4, $phase5 =< 5];
    }
    
    public function onRun(int $currentTick) {
@@ -153,12 +157,123 @@ class GameTask extends Task {
 
                 $this->gameTime--;
                 break;
+           case Arena::PHASE_RESTART:
+                $this->plugin->broadcastMessage("§a> Restarting in {$this->restartTime} sec.", Arena::MSG_TIP);
+                $this->restartTime--;
 
-   
-   
+                switch ($this->restartTime) {
+                    case 0:
+                        foreach ($this->plugin->players as $player) {
+                            $player->teleport($this->plugin->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
+                            $player->getInventory()->clearAll();
+                            $player->getArmorInventory()->clearAll();
+                            $player->getCursorInventory()->clearAll();
+                            $player->getCraftingInventory()->clearAll();
+                            $player->setFood(20);
+                            $player->setHealth(20)
+                            $player->setGamemode($this->plugin->plugin->getServer()->getDefaultGamemode());
+                        }
+                        $this->plugin->loadArena(true);
+                        $this->reloadTimer();
+                        break;
+                }
+                break;
+              }
 
+    }
 
+    public function reloadSign() {
 
+        if(!is_array($this->plugin->data["joinsign"]) || empty($this->plugin->data["joinsign"])) return;
 
-   
+        $signPos = Position::fromObject(Vector3::fromString($this->plugin->data["joinsign"][0]), $this->plugin->plugin->getServer()->getLevelByName($this->plugin->data["joinsign"][1]));
 
+        if(!$signPos->getLevel() instanceof Level || is_null($this->plugin->level)) return;
+
+        $signText = [
+
+            "§l§4Annihilation",
+
+            "§7??????????????",
+
+            "§cUnder Maintence",
+
+            "§6Coming Soon !..."
+
+        ];
+
+        if($signPos->getLevel()->getTile($signPos) === null) return;
+
+            /** @var Sign $sign */
+
+            $sign = $signPos->getLevel()->getTile($signPos);
+
+            $sign->setText($signText[0], $signText[1], $signText[2], $signText[3]);
+
+            return;
+
+        }
+
+        $signText[1] = "§9[ §b" . count($this->plugin->players) . " / " . "80" . " §9]";
+
+        switch ($this->plugin->phase) {
+
+            case Arena::PHASE_LOBBY:
+
+                if(count($this->plugin->players) >= 8) {
+
+                    $signText[2] = "§6Full";
+
+                    $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
+
+                }
+
+                else {
+
+                    $signText[2] = "§aJoin";
+
+                    $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
+
+                }
+
+                break;
+
+            case Arena::PHASE_GAME:
+
+                $signText[2] = "§5InGame";
+
+                $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
+
+                break;
+
+            case Arena::PHASE_RESTART:
+
+                $signText[2] = "§cRestarting...";
+
+                $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
+
+                break;
+
+        }
+
+        /** @var Sign $sign */
+
+        $sign = $signPos->getLevel()->getTile($signPos);
+
+        if($sign instanceof Sign) // Chest->setText() doesn't work :D
+
+            $sign->setText($signText[0], $signText[1], $signText[2], $signText[3]);
+
+    }
+
+    public function reloadTimer() {
+
+        $this->startTime = 60;
+
+        $this->phase = [];
+
+        $this->restartTime = 30;
+
+    } 
+
+}
