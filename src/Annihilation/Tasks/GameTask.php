@@ -50,8 +50,8 @@ class GameTask extends Task {
    /** @var float|int $phase5 */
    public $phase5 = 20 * 60;
    
-    /** @var array $restartData */
-    public $restartData = [];
+   /** @var array $restartData */
+   public $restartData = [];
    
    public function __constuct(Game $plugin, array $phase1, $phase2, $phase3, $phase4, $phase5) 
    {
@@ -199,11 +199,15 @@ class GameTask extends Task {
 
     public function reloadSign() {
 
-        if(!is_array($this->plugin->data["joinsign"]) || empty($this->plugin->data["joinsign"])) return;
+        if(!is_array($this->plugin->data["joinsign"]) || empty($this->plugin->data["joinsign"])) {
+           return;
+        }
 
         $signPos = Position::fromObject(Vector3::fromString($this->plugin->data["joinsign"][0]), $this->plugin->plugin->getServer()->getLevelByName($this->plugin->data["joinsign"][1]));
 
-        if(!$signPos->getLevel() instanceof Level || is_null($this->plugin->level)) return;
+        if(!$signPos->getLevel() instanceof Level || is_null($this->plugin->level)) {
+           return;
+        }
 
         $signText = [
 
@@ -217,15 +221,17 @@ class GameTask extends Task {
 
         ];
 
-        if($signPos->getLevel()->getTile($signPos) === null) return;
+        if($signPos->getLevel()->getTile($signPos) === null
+          return;
+        }
 
-            /** @var Sign $sign */
+        /** @var Sign $sign */
 
-            $sign = $signPos->getLevel()->getTile($signPos);
+        $sign = $signPos->getLevel()->getTile($signPos);
 
-            $sign->setText($signText[0], $signText[1], $signText[2], $signText[3]);
+        $sign->setText($signText[0], $signText[1], $signText[2], $signText[3]);
 
-            return;
+        return;
 
         }
 
@@ -235,7 +241,11 @@ class GameTask extends Task {
 
             case Arena::PHASE_LOBBY:
 
-                if(count($this->plugin->players) >= 8) {
+                if(count($this->plugin->players) >= $this->plugin->gameData["players.needed.to.start.match"]) {
+                   return null;
+                }
+           
+                if(count($this->plugin->players) >= 8) {  
 
                     $signText[2] = "§6Full";
 
@@ -275,7 +285,7 @@ class GameTask extends Task {
 
         $sign = $signPos->getLevel()->getTile($signPos);
 
-        if($sign instanceof Sign) // Chest->setText() doesn't work :D
+        if($sign instanceof Sign) {
 
             $sign->setText($signText[0], $signText[1], $signText[2], $signText[3]);
 
@@ -285,8 +295,13 @@ class GameTask extends Task {
 
         $this->startTime = 60;
 
-        $this->phase = [];
-
+        //PHASE TIMES CAN BE CHANGED IN CONFIG BOOL
+        $this->phase1 = $this->plugin->gameData["phase-one-time"];
+        $this->phase2 = $this->plugin->gameData["phase-two-time"];
+        $this->phase3 = $this->plugin->gameData["phase-three-time"];
+        $this->phase4 = $this->plugin->gameData["phase-four-time"];
+        $this->phase5 = $this->plugin->gameData["phase-five-time"];
+       
         $this->restartTime = 30;
 
     } 
