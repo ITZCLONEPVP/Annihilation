@@ -50,8 +50,8 @@ class GameTask extends Task {
    /** @var float|int $phase5 */
    public $phase5 = 20 * 60;
    
-   /** @var array $restartData */
-   public $restartData = [];
+    /** @var array $restartData */
+    public $restartData = [];
    
    public function __constuct(Game $plugin, array $phase1, $phase2, $phase3, $phase4, $phase5) 
    {
