@@ -151,7 +151,7 @@ class GameTask extends Task {
 
                     . TextFormat::GOLD . "Phase IV " . TextFormat::GRAY . "has started\n"
 
-                    . TextFormat::GRAY . "Now you can brew strength\n"
+                    . TextFormat::GRAY . "You can now Brew Potions !\n"
 
                     . TextFormat::GRAY . "==================================");
                     break;
