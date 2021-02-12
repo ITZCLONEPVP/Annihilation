@@ -43,7 +43,7 @@ class Annihilation extends PluginBase implements Listener{
        return  $this->playerData[$player->getId()] = $data = new PlayerData($p->getName());
      }
   
-         public function onJoin(PlayerJoinEvent $e){
+     public function onJoin(PlayerJoinEvent $e){
         $p = $e->getPlayer();
 
         new AnniJoinEvent($this, $p->getName());
